@@ -63,10 +63,10 @@ class UploadController extends Controller
 
         if ($image->type == "Collage") {
             # code...
-            $resize = Image::make($req->file('image'))->crop(2000, 2150)->resize(472, 709)->encode('jpg');
+            $resize = Image::make($req->file('image'))->encode('jpg');
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->crop(2000, 2150)->resize(472, 709)->encode('jpg');
+            $resize = Image::make($req->file('image'))->encode('jpg');
         }
 
         if ($req->hasFile('image')) {
@@ -82,31 +82,58 @@ class UploadController extends Controller
                 // save file in databse
                 return ['status' => true, 'message' => "Image uploded successfully", "image" => $newPhotoFullPath];
                 return response()->json($req, 201);
-
                 // ....
-                // $curl = curl_init();
-
-                // curl_setopt_array($curl, array(
-                //     CURLOPT_URL => 'http://127.0.0.1:8000/api/upload-image',
-                //     CURLOPT_RETURNTRANSFER => true,
-                //     CURLOPT_ENCODING => '',
-                //     CURLOPT_MAXREDIRS => 10,
-                //     CURLOPT_TIMEOUT => 0,
-                //     CURLOPT_FOLLOWLOCATION => true,
-                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                //     CURLOPT_CUSTOMREQUEST => 'POST',
-                //     CURLOPT_POSTFIELDS => array('nama' => 'rama-upload-test', 'title_photobooth' => 'photo booth collage b', 'image' => $newPhotoFullPath, 'type' => 'else'),
-                // ));
-
-                // $response = curl_exec($curl);
-
-                // curl_close($curl);
-                // // echo $response;
-                // return ['status' => true, 'message' => $response];
             } else {
                 return ['status' => false, 'message' => "Error : Image not uploded successfully"];
             }
         }
+    }
+
+    public function retakePhoto(Request $req, String $id)
+    {
+        // code ...
+        $image = new Upload_photo;
+        $image->nama = $req->nama;
+        $image->type = $req->type;
+        $image->title_photobooth = $req->title_photobooth;
+        $fileName = $req->get('image') . '.jpg';
+
+        if (!is_dir(storage_path("app/public/uploads/images/$image->nama/"))) {
+            mkdir(storage_path("app/public/uploads/images/$image->nama/"), 0755, true);
+        }
+
+        $newPath = storage_path("app/public/uploads/images/$image->nama/");
+        if (!file_exists($newPath)) {
+            mkdir($newPath, 0755);
+        }
+
+        if ($image->type == "Collage") {
+            # code...
+            $resize = Image::make($req->file('image'))->encode('jpg');
+        } else {
+            # code...
+            $resize = Image::make($req->file('image'))->encode('jpg');
+        }
+
+        if ($req->hasFile('image')) {
+            $filename = $req->file('image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension = $req->file('image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName = time() . '_' . $image->nama . '_' . $image->title_photobooth . '.' . $getfileExtension; // create new random file name
+            $image->image = $createnewFileName; // pass file name with column
+            $newPhotoFullPath = $newPath . $createnewFileName;
+            $resize->save($newPhotoFullPath);
+
+            if ($image->save()) {
+                // save file in databse
+                return ['status' => true, 'message' => "Image uploded successfully", "image" => $newPhotoFullPath];
+                return response()->json($req, 201);
+                // ....
+            } else {
+                return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+            }
+        }
+        // ...
     }
 
 

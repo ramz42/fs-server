@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -47,9 +47,10 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(String $id)
     {
         //
+        return "hei $id";
     }
 
     /**
@@ -63,8 +64,13 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(Request $req)
     {
-        // ...
+        // request filename
+        $filename = $req->filename;
+
+        // delete image
+        unlink(storage_path("app/public/" . $filename));
+        return "delete image $filename , berhasil";
     }
 }

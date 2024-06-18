@@ -104,6 +104,15 @@ Route::delete(
 // upload image
 Route::post('upload-image', [UploadController::class, 'imageUpload']);
 
+// update image
+Route::post('update-image/{nama}', [ImageController::class, 'update']);
+
+// delete image
+Route::post('delete-image', [ImageController::class, 'delete']);
+
+// show image
+Route::post('/show-image/{id}', [ImageController::class, 'show']);
+
 // upload image file tester 
 Route::post('upload-server', [UploadController::class, 'uploadToServer'])->name('upload-to-server');
 
