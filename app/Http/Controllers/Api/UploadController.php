@@ -63,10 +63,10 @@ class UploadController extends Controller
 
         if ($image->type == "Collage") {
             # code...
-            $resize = Image::make($req->file('image'))->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
         }
 
         if ($req->hasFile('image')) {
@@ -109,10 +109,10 @@ class UploadController extends Controller
 
         if ($image->type == "Collage") {
             # code...
-            $resize = Image::make($req->file('image'))->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
         }
 
         if ($req->hasFile('image')) {
@@ -205,16 +205,16 @@ class UploadController extends Controller
             mkdir($newPath, 0755);
         }
 
-        if ($image->type == "Collage") {
+        if ($image->type == "Collage A") {
             # code...
-            $resize = Image::make($req->file('image'))->crop(2000, 2150)->resize(472, 709)->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(677, 815)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
-        if ($image->type == "print") {
+        if ($image->type == "Collage B") {
             # code...
-            $resize = Image::make($req->file('image'))->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(308, 749)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe B => contoh, collage b
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->crop(2000, 2150)->resize(472, 709)->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(677, 815)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
 
         if ($req->hasFile('image')) {
