@@ -241,10 +241,14 @@ class UploadController extends Controller
     {
         $settings = new Settings();
 
+        
+        $settings->judul = $req->judul;
+        $settings->deskripsi = $req->deskripsi;
         $settings->pin = $req->pin;
         $settings->type = $req->type;
         $settings->server_key = $req->server_key;
 
+        
         $fileName = $req->get('image') . '.jpg';
 
         if ($settings->type == "main") {
@@ -286,9 +290,10 @@ class UploadController extends Controller
             $resize->save($newPhotoFullPath);
         }
 
+        // update settings db
         DB::table('settings')
             ->where('type', $settings->type)
-            ->update(['pin' => $settings->pin, 'type' => $settings->type, 'server_key' => $settings->server_key, 'image' => $settings->image,]);
+            ->update(['judul' => $settings->judul, 'deskripsi' => $settings->deskripsi, 'pin' => $settings->pin, 'type' => $settings->type, 'server_key' => $settings->server_key, 'image' => $settings->image,]);
         return response()->json($req, 201);
     }
 

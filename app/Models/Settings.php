@@ -11,7 +11,7 @@ class Settings extends Model
     protected $table = 'settings';
 
     protected $primaryKey = 'id';
-    protected $fillable = ['pin', 'type', 'server_key', 'background_image'];
+    protected $fillable = ['judul', 'deskripsi', 'pin', 'type', 'server_key', 'background_image'];
 
     public $incrementing = false;
 }

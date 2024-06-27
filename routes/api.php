@@ -25,18 +25,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// get users
 Route::get(
     '/users',
     [UsersController::class, 'index']
 )->name('get-user');
 
-
+// get sesi
 Route::get(
     '/sesi',
     [SesiFotoController::class, 'index']
 )->name('get-sesi');
 
-
+// get edit
 Route::get(
     '/edit',
     [EditPhotoController::class, 'index']
@@ -78,6 +79,7 @@ Route::post(
     [SesiFotoController::class, 'store']
 )->name('post-sesi');
 
+// update user with id
 Route::put(
     '/users/{id}',
     [UsersController::class, 'update']
@@ -95,6 +97,7 @@ Route::put(
     [SesiFotoController::class, 'update']
 )->name('update-sesi-id');
 
+// delete user
 Route::delete(
     '/users/{id}',
     [UsersController::class, 'destroy']
@@ -119,7 +122,7 @@ Route::post('upload-server', [UploadController::class, 'uploadToServer'])->name(
 // upload image print edit
 Route::post('upload-print', [UploadController::class, 'imageUploadPrint']);
 
-// upload image-background-/ background menu card
+// update settings
 Route::post('settings', [UploadController::class, 'settings']);
 
 // upload image-background-/ background menu card
