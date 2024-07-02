@@ -113,6 +113,12 @@ Route::post('update-image/{nama}', [ImageController::class, 'update']);
 // delete image
 Route::post('delete-image', [ImageController::class, 'delete']);
 
+// delete folder
+Route::post('delete-folder', [ImageController::class, 'deleteFolder']);
+
+// delete folder images edit
+Route::post('delete-folder-edit', [ImageController::class, 'deleteFolderImagesEdit']);
+
 // show image
 Route::post('/show-image/{id}', [ImageController::class, 'show']);
 
@@ -124,6 +130,9 @@ Route::post('upload-print', [UploadController::class, 'imageUploadPrint']);
 
 // update settings
 Route::post('settings', [UploadController::class, 'settings']);
+
+// update order
+Route::post('order', [UploadController::class, 'order']);
 
 // upload image-background-/ background menu card
 Route::post('menu-update', [MenuPhoto::class, 'update']);

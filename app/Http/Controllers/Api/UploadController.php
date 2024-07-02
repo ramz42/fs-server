@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Settings;
 use App\Models\Settings_menu;
 use App\Models\Upload_photo;
@@ -43,7 +44,6 @@ class UploadController extends Controller
         }
     }
 
-
     public function imageUpload(Request $req)
     {
         $image = new Upload_photo;
@@ -81,7 +81,69 @@ class UploadController extends Controller
             if ($image->save()) {
                 // save file in databse
                 return ['status' => true, 'message' => "Image uploded successfully", "image" => $newPhotoFullPath];
-                return response()->json($req, 201);
+                // return response()->json($req, 201);
+                // ....
+            } else {
+                return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+            }
+        }
+    }
+
+    // order settings
+    public function order(Request $req)
+    {
+        $order = new Order;
+        $order->title = $req->title;
+        $fileName = $req->get('header_image') . '.jpg';
+        $fileName2 = $req->get('background_image') . '.jpg';
+
+        if (!is_dir(storage_path("app/public/order/header-image/"))) {
+            mkdir(storage_path("app/public/order/header-image/"), 0755, true);
+        }
+
+        $newPath = storage_path("app/public/order/header-image/");
+        if (!file_exists($newPath)) {
+            mkdir($newPath, 0755);
+        }
+
+        if (!is_dir(storage_path("app/public/order/background-image/"))) {
+            mkdir(storage_path("app/public/order/background-image/"), 0755, true);
+        }
+
+        $newPath2 = storage_path("app/public/order/background-image/");
+        if (!file_exists($newPath2)) {
+            mkdir($newPath2, 0755);
+        }
+
+        $resize = Image::make($req->file('header_image'))->encode('jpg');
+        $resize2 = Image::make($req->file('background_image'))->encode('jpg');
+
+        if ($req->hasFile('header_image') && $req->hasFile('background_image')) {
+            $filename = $req->file('header_image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension = $req->file('header_image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName = time() . '-'. 'header'. '.'. $getfileExtension; // create new random file name
+            $order->header_image = $createnewFileName; // pass file name with column
+            $newPhotoFullPath = $newPath . $createnewFileName;
+            $resize->save($newPhotoFullPath);
+
+            $filename2 = $req->file('background_image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename2, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension2 = $req->file('background_image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName2 = time() . '-'. 'background'. '.' . $getfileExtension2; // create new random file name
+            $order->background_image = $createnewFileName2; // pass file name with column
+            $newPhotoFullPath2 = $newPath2 . $createnewFileName2;
+            $resize2->save($newPhotoFullPath2);
+
+            if ($order->save()) {
+
+                // update settings db
+                DB::table('halaman_order')
+                    ->where('title', $order->title)
+                    ->update(['title' => $order->title, 'header_image' => $order->header_image, 'background_image' => $order->background_image]);
+                // save file in databse
+                return ['status' => true, 'message' => "Image uploded successfully", "image" => $newPhotoFullPath, "image2" => $newPhotoFullPath2];
+                // return response()->json($req, 201);
                 // ....
             } else {
                 return ['status' => false, 'message' => "Error : Image not uploded successfully"];
@@ -205,16 +267,17 @@ class UploadController extends Controller
             mkdir($newPath, 0755);
         }
 
-        if ($image->type == "Collage A") {
+        // str_contains('consent', 'sent') // true, string contains
+        if (str_contains($image->type, "Collage A") || str_contains($image->type, "Paket A")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(677, 815)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            $resize = Image::make($req->file('image'))->crop(384, 576)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
-        if ($image->type == "Collage B") {
+        if (str_contains($image->type, "Collage B") || str_contains($image->type, "Paket B")) {
             # code...
             $resize = Image::make($req->file('image'))->crop(308, 749)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe B => contoh, collage b
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->crop(677, 815)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            $resize = Image::make($req->file('image'))->crop(384, 576)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
 
         if ($req->hasFile('image')) {
@@ -241,14 +304,14 @@ class UploadController extends Controller
     {
         $settings = new Settings();
 
-        
+
         $settings->judul = $req->judul;
         $settings->deskripsi = $req->deskripsi;
         $settings->pin = $req->pin;
         $settings->type = $req->type;
         $settings->server_key = $req->server_key;
 
-        
+
         $fileName = $req->get('image') . '.jpg';
 
         if ($settings->type == "main") {
