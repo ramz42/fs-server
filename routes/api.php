@@ -43,6 +43,19 @@ Route::get(
     [EditPhotoController::class, 'index']
 )->name('get-edit');
 
+// get background
+Route::get(
+    '/background',
+    [EditPhotoController::class, 'index_background']
+)->name('get-background');
+
+
+// get background
+Route::get(
+    '/warna',
+    [EditPhotoController::class, 'index_warna']
+)->name('get-warna');
+
 // post get image
 Route::post(
     '/show-images',
@@ -72,6 +85,18 @@ Route::post(
     '/edit',
     [EditPhotoController::class, 'store']
 )->name('post-edit');
+
+// post bg foto
+Route::post(
+    '/add-background',
+    [EditPhotoController::class, 'storeBg']
+)->name('post-bg');
+
+// post main color
+Route::post(
+    '/store-main-color',
+    [EditPhotoController::class, 'storeMainColor']
+)->name('store-main-color');
 
 // post sesi foto
 Route::post(
