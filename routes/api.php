@@ -5,8 +5,12 @@ use App\Http\Controllers\Api\SesiFotoController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\MainColor;
 use App\Http\Controllers\MenuPhoto;
+use App\Http\Controllers\Order;
+use App\Http\Controllers\SerialKeyController;
 use App\Http\Controllers\User_foto;
+use App\Models\Serial_key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,12 +53,27 @@ Route::get(
     [EditPhotoController::class, 'index_background']
 )->name('get-background');
 
+// get serial key
+Route::get(
+    '/serial-key',
+    [SerialKeyController::class, 'index']
+)->name('get-serial-key');
+
+// Route::get(
+//     '/warna',
+//     [EditPhotoController::class, 'index_warna']
+// )->name('get-warna');
 
 // get background
 Route::get(
-    '/warna',
-    [EditPhotoController::class, 'index_warna']
+    '/main-color',
+    [MainColor::class, 'index']
 )->name('get-warna');
+
+Route::get(
+    '/order-get',
+    [Order::class, 'index']
+)->name('get-order');
 
 // post get image
 Route::post(
@@ -91,6 +110,12 @@ Route::post(
     '/add-background',
     [EditPhotoController::class, 'storeBg']
 )->name('post-bg');
+
+// update bg with id
+Route::put(
+    '/background/{id}',
+    [EditPhotoController::class, 'updateBg']
+)->name('update-bg');
 
 // post main color
 Route::post(

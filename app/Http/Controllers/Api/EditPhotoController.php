@@ -113,6 +113,50 @@ class EditPhotoController extends Controller
         return response()->json($request, 201);
     }
 
+    // update bg
+    public function updateBg(Request $request, String $id)
+    {
+        // ...
+        $background = Background::find($id);
+        $background->nama = $request->nama;
+        $background->warna = $request->warna;
+        $background->status = $request->status;
+
+        $fileName = $request->get('image') . '.jpg';
+
+        # code...
+        if (!is_dir(storage_path("app/public/background-image/edit-photo/"))) {
+            mkdir(storage_path("app/public/background-image/edit-photo/"), 0755, true);
+        }
+
+        $newPath = storage_path('app/public/background-image/edit-photo/');
+        if (!file_exists($newPath)) {
+            mkdir($newPath, 0755);
+        }
+
+        // background image no resize
+        $resize = Image::make($request->file('image'));
+
+        if ($request->hasFile('image')) {
+            $filename = $request->file('image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension = $request->file('image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName = time() . '_' . $background->nama . '.' . $getfileExtension; // create new random file name
+            $background->image = $createnewFileName; // pass file name with column
+            $newPhotoFullPath = $newPath . $createnewFileName;
+            $resize->save($newPhotoFullPath);
+        }
+
+        // update background db
+        
+        $background->save();
+        $background->update($request->all());
+
+        return response()->json($background);
+        // $bg = Background::whereId($param)->update($request->all());
+        // return response()->json($bg, 201);
+    }
+
     /**
      * Display the specified resource.
      */
