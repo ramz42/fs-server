@@ -9,8 +9,11 @@ use App\Http\Controllers\MainColor;
 use App\Http\Controllers\MenuPhoto;
 use App\Http\Controllers\Order;
 use App\Http\Controllers\SerialKeyController;
+use App\Http\Controllers\Sticker;
 use App\Http\Controllers\User_foto;
 use App\Models\Serial_key;
+use App\Models\Sticker as ModelsSticker;
+use App\Models\Sticker_Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -128,6 +131,24 @@ Route::post(
     '/sesi',
     [SesiFotoController::class, 'store']
 )->name('post-sesi');
+
+// create sticker
+Route::post(
+    '/add-sticker',
+    [Sticker::class, 'store']
+)->name('add-sticker');
+
+// get sticker
+Route::get(
+    '/get-sticker',
+    [Sticker::class, 'show']
+)->name('get-sticker');
+
+// update sticker
+Route::post(
+    '/update-sticker',
+    [Sticker::class, 'update']
+)->name('create-sticker');
 
 // update user with id
 Route::put(

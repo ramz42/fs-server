@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Settings;
 use App\Models\Settings_menu;
+use App\Models\StickerModel;
+use App\Models\Stickers;
 use App\Models\Upload_photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -122,7 +124,7 @@ class UploadController extends Controller
             $filename = $req->file('header_image')->getClientOriginalName(); // get the file name
             $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
             $getfileExtension = $req->file('header_image')->getClientOriginalExtension(); // get the file extension
-            $createnewFileName = time() . '-'. 'header'. '.'. $getfileExtension; // create new random file name
+            $createnewFileName = time() . '-' . 'header' . '.' . $getfileExtension; // create new random file name
             $order->header_image = $createnewFileName; // pass file name with column
             $newPhotoFullPath = $newPath . $createnewFileName;
             $resize->save($newPhotoFullPath);
@@ -130,7 +132,7 @@ class UploadController extends Controller
             $filename2 = $req->file('background_image')->getClientOriginalName(); // get the file name
             $getfilenamewitoutext = pathinfo($filename2, PATHINFO_FILENAME); // get the file name without extension
             $getfileExtension2 = $req->file('background_image')->getClientOriginalExtension(); // get the file extension
-            $createnewFileName2 = time() . '-'. 'background'. '.' . $getfileExtension2; // create new random file name
+            $createnewFileName2 = time() . '-' . 'background' . '.' . $getfileExtension2; // create new random file name
             $order->background_image = $createnewFileName2; // pass file name with column
             $newPhotoFullPath2 = $newPath2 . $createnewFileName2;
             $resize2->save($newPhotoFullPath2);
@@ -150,6 +152,48 @@ class UploadController extends Controller
             }
         }
     }
+
+    // public function store_sticker(Request $request)
+    // {
+    //     // ...
+    //     $sticker = new Stickers();
+    //     $sticker->nama = $request->nama;
+    //     $sticker->status = $request->status;
+
+    //     // $fileName = $request->get('nama_img') . '.png';
+
+    //     if (!is_dir(storage_path("app/public/sticker/"))) {
+    //         mkdir(storage_path("app/public/sticker/"), 0755, true);
+    //     }
+
+    //     $newPath = storage_path("app/public/sticker/");
+    //     if (!file_exists($newPath)) {
+    //         mkdir($newPath, 0755);
+    //     }
+
+    //     $resize = Image::make($request->file('nama_img'))->encode('jpg');
+
+    //     if ($request->hasFile('nama_img')) {
+    //         $filename = $request->file('nama_img')->getClientOriginalName(); // get the file name
+    //         $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+    //         $getfileExtension = $request->file('nama_img')->getClientOriginalExtension(); // get the file extension
+    //         $createnewFileName = time() . '_' . $sticker->nama . '.' . $getfileExtension; // create new random file name
+    //         $sticker->image = $createnewFileName; // pass file name with column
+    //         $newPhotoFullPath = $newPath . $createnewFileName;
+    //         $resize->save($newPhotoFullPath);
+    //     }
+
+    //     if ($sticker->save()) {
+
+    //         // update settings db
+    //         DB::table('sticker')->insert(['nama' => $sticker->nama,  'nama_img' => $sticker->nama_img, 'status' => $sticker->status]);
+    //         // save file in databse
+    //         return ['status' => true, 'message' => "Sticker uploded successfully"];
+    //         // ....
+    //     } else {
+    //         return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+    //     }
+    // }
 
     public function retakePhoto(Request $req, String $id)
     {
@@ -195,7 +239,6 @@ class UploadController extends Controller
                 return ['status' => false, 'message' => "Error : Image not uploded successfully"];
             }
         }
-        // ...
     }
 
 
@@ -205,8 +248,6 @@ class UploadController extends Controller
 
         $image = new Upload_photo;
         $image->nama = $req->nama;
-        // $image->nama = $req->file('image');
-        // $req->nama = $req->nama;
 
         if (!is_dir(storage_path("app/public/uploads/images/$req->nama/"))) {
             mkdir(storage_path("app/public/uploads/images/$req->nama/"), 0755, true);
@@ -293,8 +334,6 @@ class UploadController extends Controller
 
         if ($image->save()) { // save file in databse
             return ['status' => true, 'message' => "Image uploded successfully", 'image' => $createnewFileName];
-
-            return response()->json($req, 201);
         } else {
             return ['status' => false, 'message' => "Error : Image not uploded successfully"];
         }
@@ -304,13 +343,11 @@ class UploadController extends Controller
     {
         $settings = new Settings();
 
-
         $settings->judul = $req->judul;
         $settings->deskripsi = $req->deskripsi;
         $settings->pin = $req->pin;
         $settings->type = $req->type;
         $settings->server_key = $req->server_key;
-
 
         $fileName = $req->get('image') . '.jpg';
 
