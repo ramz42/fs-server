@@ -52,7 +52,7 @@ class UploadController extends Controller
         $image->nama = $req->nama;
         $image->type = $req->type;
         $image->title_photobooth = $req->title_photobooth;
-        $fileName = $req->get('image') . '.jpg';
+        $fileName = $req->get('image') . '.png';
 
         if (!is_dir(storage_path("app/public/uploads/images/$image->nama/"))) {
             mkdir(storage_path("app/public/uploads/images/$image->nama/"), 0755, true);
@@ -65,10 +65,10 @@ class UploadController extends Controller
 
         if ($image->type == "Collage") {
             # code...
-            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
+            $resize = Image::make($req->file('image'))->encode('png');
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
+            $resize = Image::make($req->file('image'))->encode('png');
         }
 
         if ($req->hasFile('image')) {
@@ -96,8 +96,8 @@ class UploadController extends Controller
     {
         $order = new Order;
         $order->title = $req->title;
-        $fileName = $req->get('header_image') . '.jpg';
-        $fileName2 = $req->get('background_image') . '.jpg';
+        $fileName = $req->get('header_image') . '.png';
+        $fileName2 = $req->get('background_image') . '.png';
 
         if (!is_dir(storage_path("app/public/order/header-image/"))) {
             mkdir(storage_path("app/public/order/header-image/"), 0755, true);
@@ -117,8 +117,8 @@ class UploadController extends Controller
             mkdir($newPath2, 0755);
         }
 
-        $resize = Image::make($req->file('header_image'))->encode('jpg');
-        $resize2 = Image::make($req->file('background_image'))->encode('jpg');
+        $resize = Image::make($req->file('header_image'))->encode('png');
+        $resize2 = Image::make($req->file('background_image'))->encode('png');
 
         if ($req->hasFile('header_image') && $req->hasFile('background_image')) {
             $filename = $req->file('header_image')->getClientOriginalName(); // get the file name
@@ -153,48 +153,6 @@ class UploadController extends Controller
         }
     }
 
-    // public function store_sticker(Request $request)
-    // {
-    //     // ...
-    //     $sticker = new Stickers();
-    //     $sticker->nama = $request->nama;
-    //     $sticker->status = $request->status;
-
-    //     // $fileName = $request->get('nama_img') . '.png';
-
-    //     if (!is_dir(storage_path("app/public/sticker/"))) {
-    //         mkdir(storage_path("app/public/sticker/"), 0755, true);
-    //     }
-
-    //     $newPath = storage_path("app/public/sticker/");
-    //     if (!file_exists($newPath)) {
-    //         mkdir($newPath, 0755);
-    //     }
-
-    //     $resize = Image::make($request->file('nama_img'))->encode('jpg');
-
-    //     if ($request->hasFile('nama_img')) {
-    //         $filename = $request->file('nama_img')->getClientOriginalName(); // get the file name
-    //         $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
-    //         $getfileExtension = $request->file('nama_img')->getClientOriginalExtension(); // get the file extension
-    //         $createnewFileName = time() . '_' . $sticker->nama . '.' . $getfileExtension; // create new random file name
-    //         $sticker->image = $createnewFileName; // pass file name with column
-    //         $newPhotoFullPath = $newPath . $createnewFileName;
-    //         $resize->save($newPhotoFullPath);
-    //     }
-
-    //     if ($sticker->save()) {
-
-    //         // update settings db
-    //         DB::table('sticker')->insert(['nama' => $sticker->nama,  'nama_img' => $sticker->nama_img, 'status' => $sticker->status]);
-    //         // save file in databse
-    //         return ['status' => true, 'message' => "Sticker uploded successfully"];
-    //         // ....
-    //     } else {
-    //         return ['status' => false, 'message' => "Error : Image not uploded successfully"];
-    //     }
-    // }
-
     public function retakePhoto(Request $req, String $id)
     {
         // code ...
@@ -202,7 +160,7 @@ class UploadController extends Controller
         $image->nama = $req->nama;
         $image->type = $req->type;
         $image->title_photobooth = $req->title_photobooth;
-        $fileName = $req->get('image') . '.jpg';
+        $fileName = $req->get('image') . '.png';
 
         if (!is_dir(storage_path("app/public/uploads/images/$image->nama/"))) {
             mkdir(storage_path("app/public/uploads/images/$image->nama/"), 0755, true);
@@ -215,10 +173,10 @@ class UploadController extends Controller
 
         if ($image->type == "Collage") {
             # code...
-            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('png');
         } else {
             # code...
-            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('jpg');
+            $resize = Image::make($req->file('image'))->crop(1280, 720)->encode('png');
         }
 
         if ($req->hasFile('image')) {
@@ -297,7 +255,7 @@ class UploadController extends Controller
         $image->nama = $req->nama;
         $image->type = $req->type;
         $image->title_photobooth = $req->title_photobooth;
-        $fileName = $req->get('image') . '.jpg';
+        $fileName = $req->get('image') . '.png';
 
         if (!is_dir(storage_path("app/public/uploads/print"))) {
             mkdir(storage_path("app/public/uploads/print"), 0755, true);
@@ -308,17 +266,23 @@ class UploadController extends Controller
             mkdir($newPath, 0755);
         }
 
-        // str_contains('consent', 'sent') // true, string contains
-        if (str_contains($image->type, "Collage A") || str_contains($image->type, "Paket A")) {
+        // str_contains('consent', 'sent') // true, string contains, // di image intervention ada rotate
+        if (str_contains($image->title_photobooth, "Collage A") || str_contains($image->title_photobooth, "Paket A") || str_contains($image->title_photobooth, "4x6")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(384, 576)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            $resize = Image::make($req->file('image'))->crop(384, 576)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
-        if (str_contains($image->type, "Collage B") || str_contains($image->type, "Paket B")) {
+        if (str_contains($image->title_photobooth, "Collage B") || str_contains($image->title_photobooth, "Paket B")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(308, 749)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe B => contoh, collage b
-        } else {
+            // options 1 print paper
+            // $resize = Image::make($req->file('image'))->crop(308, 749)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe B => contoh, collage b
+
+            // 2x print paper
+            $resize = Image::make($req->file('image'))->crop(384, 576)->resize(1200, 1800)->encode('png');
+        }
+        if (str_contains($image->title_photobooth, "3x4")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(384, 576)->encode('jpg'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            // 3x4 tipe
+            $resize = Image::make($req->file('image'))->crop(288, 384)->resize(900, 1200)->encode('png');
         }
 
         if ($req->hasFile('image')) {
@@ -339,6 +303,49 @@ class UploadController extends Controller
         }
     }
 
+    public function editImage(Request $req)
+    {
+        // ...
+        $nama = $req->nama;
+        $nama_image = $req->nama_image;
+
+        // variable skala dan rotasi image
+        $rotate_value = $req->rotate_value; // (- minus degree to right), (+ degree to left)
+        $resize_value1 = $req->resize_value1;
+        $resize_value2 = $req->resize_value2;
+
+        $fileName = $req->get('image') . '.png';
+
+        if (!is_dir(storage_path("app/public/uploads/images/edit/$nama/"))) {
+            mkdir(storage_path("app/public/uploads/images/edit/$nama/"), 0755, true);
+        }
+
+        $newPath = storage_path("app/public/uploads/images/edit/$nama/");
+        if (!file_exists($newPath)) {
+            mkdir($newPath, 0755);
+        }
+
+        $resize = Image::make($req->file('image'))->rotate($rotate_value)->resize($resize_value1, $resize_value2)->encode('png');
+
+        if ($req->hasFile('image')) {
+            $filename = $req->file('image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension = $req->file('image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName =  $nama_image; // create new random file name
+            $image = $createnewFileName; // pass file name with column
+
+            $newPhotoFullPath = $newPath . $createnewFileName;
+            $resize->save($newPhotoFullPath);
+            return ['status' => true, 'message' => "Image uploded successfully", 'image' => $newPhotoFullPath];
+        }
+
+        // if ($resize->save($newPhotoFullPath)) { // save file in databse
+        //     return ['status' => true, 'message' => "Image uploded successfully", 'image' => $createnewFileName];
+        // } else {
+        //     return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+        // }
+    }
+
     public function settings(Request $req)
     {
         $settings = new Settings();
@@ -349,7 +356,7 @@ class UploadController extends Controller
         $settings->type = $req->type;
         $settings->server_key = $req->server_key;
 
-        $fileName = $req->get('image') . '.jpg';
+        $fileName = $req->get('image') . '.png';
 
         if ($settings->type == "main") {
             # code...
@@ -406,7 +413,7 @@ class UploadController extends Controller
         $settings->deskripsi = $req->deskripsi;
         $settings->harga = $req->harga;
 
-        $fileName = $req->get('image') . '.jpg';
+        $fileName = $req->get('image') . '.png';
 
         if (!is_dir(storage_path("app/public/background-image/sub/"))) {
             mkdir(storage_path("app/public/background-image/sub/"), 0755, true);

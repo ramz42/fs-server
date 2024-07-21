@@ -175,6 +175,9 @@ Route::delete(
 )->name('delete-user');
 
 
+// upload image edit
+Route::post('upload-image-edit', [UploadController::class, 'editImage']);
+
 // upload image
 Route::post('upload-image', [UploadController::class, 'imageUpload']);
 
