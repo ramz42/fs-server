@@ -267,22 +267,15 @@ class UploadController extends Controller
         }
 
         // str_contains('consent', 'sent') // true, string contains, // di image intervention ada rotate
-        if (str_contains($image->title_photobooth, "Collage A") || str_contains($image->title_photobooth, "Paket A") || str_contains($image->title_photobooth, "4x6")) {
+        if (str_contains($image->title_photobooth, "4x6")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(384, 576)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            $resize = Image::make($req->file('image'))->crop(670, 860)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
-        if (str_contains($image->title_photobooth, "Collage B") || str_contains($image->title_photobooth, "Paket B")) {
-            # code...
-            // options 1 print paper
-            // $resize = Image::make($req->file('image'))->crop(308, 749)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe B => contoh, collage b
-
-            // 2x print paper
-            $resize = Image::make($req->file('image'))->crop(384, 576)->resize(1200, 1800)->encode('png');
-        }
+  
         if (str_contains($image->title_photobooth, "3x4")) {
             # code...
             // 3x4 tipe
-            $resize = Image::make($req->file('image'))->crop(288, 384)->resize(900, 1200)->encode('png');
+            $resize = Image::make($req->file('image'))->crop(670, 860)->resize(900, 1200)->encode('png');
         }
 
         if ($req->hasFile('image')) {
