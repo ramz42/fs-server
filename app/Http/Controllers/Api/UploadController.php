@@ -269,13 +269,13 @@ class UploadController extends Controller
         // str_contains('consent', 'sent') // true, string contains, // di image intervention ada rotate
         if (str_contains($image->title_photobooth, "4x6")) {
             # code...
-            $resize = Image::make($req->file('image'))->crop(670, 860)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+            $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
         }
   
         if (str_contains($image->title_photobooth, "3x4")) {
             # code...
             // 3x4 tipe
-            $resize = Image::make($req->file('image'))->crop(670, 860)->resize(900, 1200)->encode('png');
+            $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png');
         }
 
         if ($req->hasFile('image')) {
@@ -348,6 +348,7 @@ class UploadController extends Controller
         $settings->pin = $req->pin;
         $settings->type = $req->type;
         $settings->server_key = $req->server_key;
+        $settings->string_logo = $req->string_logo;
 
         $fileName = $req->get('image') . '.png';
 
@@ -393,7 +394,7 @@ class UploadController extends Controller
         // update settings db
         DB::table('settings')
             ->where('type', $settings->type)
-            ->update(['judul' => $settings->judul, 'deskripsi' => $settings->deskripsi, 'pin' => $settings->pin, 'type' => $settings->type, 'server_key' => $settings->server_key, 'image' => $settings->image,]);
+            ->update(['judul' => $settings->judul, 'deskripsi' => $settings->deskripsi, 'pin' => $settings->pin, 'type' => $settings->type, 'server_key' => $settings->server_key, 'image' => $settings->image, 'string_logo' => $settings->string_logo]);
         return response()->json($req, 201);
     }
 
