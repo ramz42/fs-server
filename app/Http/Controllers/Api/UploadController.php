@@ -270,9 +270,7 @@ class UploadController extends Controller
         if (str_contains($image->title_photobooth, "4x6")) {
             # code...
             $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
-        }
-  
-        if (str_contains($image->title_photobooth, "3x4")) {
+        } else {
             # code...
             // 3x4 tipe
             $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png');
