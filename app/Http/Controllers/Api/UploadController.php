@@ -1,20 +1,15 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Settings;
-use App\Models\Settings_menu;
-use App\Models\StickerModel;
-use App\Models\Stickers;
 use App\Models\Upload_photo;
 use Illuminate\Http\Request;
+use App\Models\Settings_menu;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
 
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -31,7 +26,6 @@ class UploadController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
     public function store(Request $request)
     {
         // //
@@ -329,12 +323,6 @@ class UploadController extends Controller
             $resize->save($newPhotoFullPath);
             return ['status' => true, 'message' => "Image uploded successfully", 'image' => $newPhotoFullPath];
         }
-
-        // if ($resize->save($newPhotoFullPath)) { // save file in databse
-        //     return ['status' => true, 'message' => "Image uploded successfully", 'image' => $createnewFileName];
-        // } else {
-        //     return ['status' => false, 'message' => "Error : Image not uploded successfully"];
-        // }
     }
 
     public function settings(Request $req)
