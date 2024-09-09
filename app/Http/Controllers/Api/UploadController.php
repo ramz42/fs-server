@@ -288,6 +288,52 @@ class UploadController extends Controller
         }
     }
 
+    public function uploadInvoice(Request $req)
+    {
+        // ...
+        $image = new Upload_photo;
+        $image->nama = $req->nama;
+        $image->type = $req->type;
+        $image->title_photobooth = $req->title_photobooth;
+        $fileName = $req->get('image') . '.png';
+
+        if (!is_dir(storage_path("app/public/uploads/print"))) {
+            mkdir(storage_path("app/public/uploads/print"), 0755, true);
+        }
+
+        $newPath = storage_path('app/public/uploads/print/');
+        if (!file_exists($newPath)) {
+            mkdir($newPath, 0755);
+        }
+
+        // str_contains('consent', 'sent') // true, string contains, // di image intervention ada rotate
+        if (str_contains($image->title_photobooth, "4x6")) {
+            # code...
+            $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png'); // untuk ukuran 1920 x 1080 crop pada bagian foto tipe A => contoh, collage a 
+        } else {
+            # code...
+            // 3x4 tipe
+            $resize = Image::make($req->file('image'))->crop(600, 860)->resize(1200, 1800)->encode('png');
+        }
+
+        if ($req->hasFile('image')) {
+            $filename = $req->file('image')->getClientOriginalName(); // get the file name
+            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
+            $getfileExtension = $req->file('image')->getClientOriginalExtension(); // get the file extension
+            $createnewFileName = time() . '_' . $image->nama . '_' . $image->title_photobooth . '.' . $getfileExtension; // create new random file name
+            $image->image = $createnewFileName; // pass file name with column
+
+            $newPhotoFullPath = $newPath . $createnewFileName;
+            $resize->save($newPhotoFullPath);
+        }
+
+        if ($image->save()) { // save file in databse
+            return ['status' => true, 'message' => "Image uploded successfully", 'image' => $createnewFileName];
+        } else {
+            return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+        }
+    }
+
     public function editImage(Request $req)
     {
         // ...

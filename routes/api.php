@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\SesiFotoController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MainColor;
 use App\Http\Controllers\MenuPhoto;
 use App\Http\Controllers\Order;
@@ -62,11 +63,6 @@ Route::get(
     [SerialKeyController::class, 'index']
 )->name('get-serial-key');
 
-// Route::get(
-//     '/warna',
-//     [EditPhotoController::class, 'index_warna']
-// )->name('get-warna');
-
 // get background
 Route::get(
     '/main-color',
@@ -101,6 +97,23 @@ Route::post(
     '/users',
     [UsersController::class, 'create']
 )->name('user-post');
+
+// create invoice
+Route::post(
+    '/invoices',
+    [InvoiceController::class, 'create']
+)->name('invoice-post');
+
+Route::get(
+    '/invoices',
+    [InvoiceController::class, 'index']
+)->name('get-invoice');
+
+// update invoice
+Route::post(
+    '/invoices/{id}',
+    [InvoiceController::class, 'update']
+)->name('update-invoices');
 
 // post edit foto
 Route::post(
