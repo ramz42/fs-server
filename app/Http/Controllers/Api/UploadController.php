@@ -374,7 +374,6 @@ class UploadController extends Controller
     public function settings(Request $req)
     {
         $settings = new Settings();
-
         $settings->judul = $req->judul;
         $settings->deskripsi = $req->deskripsi;
         $settings->pin = $req->pin;
@@ -406,7 +405,6 @@ class UploadController extends Controller
             }
         }
 
-        // background image no resize
         $resize = Image::make($req->file('image'));
 
 
@@ -426,8 +424,10 @@ class UploadController extends Controller
         // update settings db
         DB::table('settings')
             ->where('type', $settings->type)
-            ->update(['judul' => $settings->judul, 'deskripsi' => $settings->deskripsi, 'pin' => $settings->pin, 'type' => $settings->type, 'server_key' => $settings->server_key, 'image' => $settings->image, 'string_logo' => $settings->string_logo]);
+            ->update(['judul' => $settings->judul, 'deskripsi' => $settings->deskripsi, 'pin' => $settings->pin, 'type' => "main", 'server_key' => $settings->server_key, 'image' => $settings->image, 'string_logo' => $settings->string_logo]);
         return response()->json($req, 201);
+        // return redirect('/foodlog');
+        // redirect()->route('platform.halaman-settings')->with('message', response()->json($req, 201));
     }
 
     public function menu_settings(Request $req)

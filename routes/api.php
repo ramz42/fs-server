@@ -216,7 +216,7 @@ Route::post('upload-server', [UploadController::class, 'uploadToServer'])->name(
 Route::post('upload-print', [UploadController::class, 'imageUploadPrint']);
 
 // update settings
-Route::post('settings', [UploadController::class, 'settings']);
+Route::post('settings', [UploadController::class, 'settings'])->name('settings');
 
 // update order
 Route::post('order', [UploadController::class, 'order']);

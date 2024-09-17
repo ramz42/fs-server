@@ -68,10 +68,6 @@ class User_foto extends Controller
         $user->save();
 
         return "Data Berhasil di update";
-        // $user_foto->nama = $request->nama;
-        // $user_foto->title_photobooth = $request->title_photobooth;
-        // $user_foto->harga = $request->harga;
-        // $user_foto->id_foto = $request->id_foto;
     }
 
     /**
