@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens;
 
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -31,7 +32,7 @@ class HalamanOrder extends Screen
      */
     public function name(): ?string
     {
-        return 'Halaman Order';
+        return 'Background Image';
     }
 
     /**
@@ -41,7 +42,14 @@ class HalamanOrder extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            Link::make("Buat Order")->icon('plus')->route('platform.order-buat'),
+            Link::make("Update Order")->icon('pencil')->route('platform.order-update'),
+            Link::make("Delete Order")->icon('trash')->route('platform.order-delete'),
+
+            Link::make("Tema Warna")->icon('circle')->route('platform.warna-halaman'),
+            Link::make("Background Image")->icon('image')->route('platform.halaman-order'),
+        ];
     }
 
     /**
@@ -54,8 +62,10 @@ class HalamanOrder extends Screen
         return [
             Layout::rows([
 
-                Input::make('header_image')->type('file'),
-                Input::make('background_image')->type('file'),
+                Input::make('header_image')->type('file')
+                    ->title('Header Image'),
+                Input::make('background_image')->type('file')
+                    ->title('Background Image'),
 
                 Button::make('Simpan')
                     ->method('order'),

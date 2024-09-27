@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Layout;
 use App\Http\Controllers\MainColor;
 use App\Http\Controllers\MenuPhoto;
 use App\Http\Controllers\Order;
@@ -226,6 +227,12 @@ Route::post('menu-update', [MenuPhoto::class, 'update']);
 
 // upload image-background-/ background menu card
 Route::post('menu-buat', [MenuPhoto::class, 'store']);
+
+// Get Layout
+Route::get('layout', [Layout::class, 'index']);
+
+// Post-Update Layout
+Route::put('/layout/{nama}', [Layout::class, 'update']);
 
 // delete menu settings
 Route::delete(

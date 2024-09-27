@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens;
 
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -40,7 +41,15 @@ class WarnaHalaman extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            
+            Link::make("Buat Order")->icon('plus')->route('platform.order-buat'),
+            Link::make("Update Order")->icon('pencil')->route('platform.order-update'),
+            Link::make("Delete Order")->icon('trash')->route('platform.order-delete'),
+
+            Link::make("Tema Warna")->icon('circle')->route('platform.warna-halaman'),
+            Link::make("Background Image")->icon('image')->route('platform.halaman-order'),
+        ];
     }
 
     /**

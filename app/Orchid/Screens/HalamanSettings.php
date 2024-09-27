@@ -4,6 +4,7 @@ namespace App\Orchid\Screens;
 
 use App\View\Components\HalamanSettings as ComponentsHalamanSettings;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
@@ -49,7 +50,11 @@ class HalamanSettings extends Screen
      */
     public function commandBar(): iterable
     {
-        return [];
+        return [
+            
+            Link::make("Halaman Settings")->icon('gear')->route('platform.halaman-settings'),
+            Link::make("Laporan Invoice")->icon('pencil')->route('platform.laporan-invoices'),
+        ];
     }
 
     /**

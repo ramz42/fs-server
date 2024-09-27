@@ -46,10 +46,14 @@ class LaporanInvoices extends Screen
     public function commandBar(): iterable
     {
         return [
-            ModalToggle::make('Launch demo modal')
-                ->modal('exampleModal')
-                ->method('action')
-                ->icon('full-screen'),
+            // ModalToggle::make('Launch demo modal')
+            //     ->modal('exampleModal')
+            //     ->method('action')
+            //     ->icon('full-screen'),
+
+                
+            Link::make("Halaman Settings")->icon('gear')->route('platform.halaman-settings'),
+            Link::make("Laporan Invoice")->icon('pencil')->route('platform.laporan-invoices'),
         ];
     }
 
@@ -64,32 +68,36 @@ class LaporanInvoices extends Screen
             // Layout::view('laporan_invoices'),
             Layout::table('invoices', [
                 TD::make('tanggal')->render(function ($invoices) {
-                    return substr($invoices->tanggal, 0, 10);
+                    return substr($invoices->tanggal, 0, 30);
                 }),
                 TD::make('no invoice')->render(function ($invoices) {
-                    return substr($invoices->no_invoice, 0, 10);
+                    return substr($invoices->no_invoice, 0, 40);
                 }),
                 TD::make('code')->render(function ($invoices) {
-                    return substr($invoices->code, 0, 10);
+                    return substr($invoices->code, 0, 40);
                 }),
                 TD::make('paket')->render(function ($invoices) {
-                    return substr($invoices->paket, 0, 10);
+                    return substr($invoices->paket, 0, 30);
                 }),
                 TD::make('customer')->render(function ($invoices) {
-                    return substr($invoices->customer, 0, 10);
+                    return substr($invoices->customer, 0, 30);
                 }),
-                TD::make('email')->render(function ($invoices) {
-                    return substr($invoices->email, 0, 10);
+                TD::make('email')->render(function ($invoices): string {
+                    return substr($invoices->email, 0, 30);
                 }),
+
                 TD::make('no telp')->render(function ($invoices) {
-                    return substr($invoices->no_telp, 0, 10);
+                    return substr($invoices->no_telp, 0, 30);
                 }),
+
                 TD::make('harga')->render(function ($invoices) {
-                    return substr($invoices->harga, 0, 10);
+                    return substr($invoices->harga, 0, length: 30);
                 }),
+
                 TD::make('created at')->render(function ($invoices) {
-                    return substr($invoices->created_at, 0, 10);
+                    return substr($invoices->created_at, 0, 30);
                 }),
+
                 TD::make('Aksi')->render(
                     fn() =>  Button::make('print')
                         ->icon('printer')
@@ -109,11 +117,8 @@ class LaporanInvoices extends Screen
 
     public function action(): void
     {
-        Toast::info('Hello, world! This is a toast message.');
-        // Layout::modal('exampleModals', [
-        //     Layout::rows([]),
-        // ])
-        //     ->applyButton('Send')
-        //     ->closeButton('Close');
+        Layout::modal('exampleModal', [
+            Layout::rows([]),
+        ]);
     }
 }

@@ -40,51 +40,77 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route(config('platform.index'))
                 ->divider(),
 
-            Menu::make('Halaman Settings')
-                ->icon('bs.collection')
-                ->title(title: 'Menu Settings')
-                ->route('platform.halaman-settings'),
+            Menu::make('Order - Settings')
+                ->icon('grid')
+                ->list([
+                    Menu::make('Halaman Order')
+                        ->icon('layers')
+                        ->route('platform.halaman-order')->sort(1),
 
-            Menu::make('Halaman Order')
-                ->icon('bs.collection')
-                ->route('platform.halaman-order'),
+                    Menu::make('Halaman Settings')
+                        ->icon('layers')
+                        ->route('platform.halaman-settings')->sort(2),
 
-            Menu::make('Tema Warna')
-                ->icon('bs.collection')
-                ->route('platform.warna-halaman'),
+                ])->divider(),
 
-            Menu::make('Menu Order')
-                ->icon('bs.collection')
-                ->route('platform.order-buat'),
 
-            Menu::make('Laporan Invoices')
-                ->icon('bs.collection')
-                ->route('platform.laporan-invoices')
-                ->divider(),
+            Menu::make('Edit Photo')
+                ->icon('pencil')
+                ->list([
+                    Menu::make('Layout')
+                        ->icon('layers')
+                        ->route('platform.table-layout'),
 
-            Menu::make(__('Users'))
-                ->icon('bs.people')
-                ->route('platform.systems.users')
-                ->permission('platform.systems.users')
-                ->title(__('Akses Kontrol')),
+                    Menu::make('Background')
+                        ->icon('layers')
+                        ->route('platform.table-background'),
 
-            Menu::make(__('Roles'))
+                    Menu::make('Filter')
+                        ->icon('layers')
+                        ->route('platform.buat-filter'),
+
+                    Menu::make('Sticker')
+                        ->icon('layers')
+                        ->route('platform.table-sticker'),
+
+                ])->divider(),
+
+
+            Menu::make('Akses Kontrol')
                 ->icon('bs.shield')
-                ->route('platform.systems.roles')
-                ->permission('platform.systems.roles')
-                ->divider(),
+                ->list([
+                    Menu::make(__('Users'))
+                        ->icon('bs.people')
+                        ->route('platform.systems.users')
+                        ->permission('platform.systems.users')
+                        ->title(__('Akses Kontrol')),
+
+                    Menu::make(__('Roles'))
+                        ->icon('bs.shield')
+                        ->route('platform.systems.roles')
+                        ->permission('platform.systems.roles')
+
+                ])->divider(),
 
             Menu::make('Dokumentasi')
-                ->title('Dokumentasi')
                 ->icon('bs.box-arrow-up-right')
-                ->url('https://orchid.software/en/docs')
-                ->target('_blank'),
+                ->list([
+                    Menu::make('Dokumentasi')
+                        ->title('Dokumentasi')
+                        ->icon('bs.box-arrow-up-right')
+                        ->url('https://orchid.software/en/docs')
+                        ->target('_blank'),
 
-            Menu::make('Changelog')
-                ->icon('bs.box-arrow-up-right')
-                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-                ->target('_blank')
-                ->badge(fn() => Dashboard::version(), Color::DARK),
+                    Menu::make('Changelog')
+                        ->icon('bs.box-arrow-up-right')
+                        ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
+                        ->target('_blank')
+                        ->badge(fn() => Dashboard::version(), Color::DARK),
+
+                ])->divider(),
+
+
+
         ];
     }
 

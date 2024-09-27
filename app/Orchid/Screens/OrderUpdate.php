@@ -32,7 +32,7 @@ class OrderUpdate extends Screen
      */
     public function name(): ?string
     {
-        return 'OrderUpdate';
+        return 'Update Order';
     }
 
     /**
@@ -43,9 +43,12 @@ class OrderUpdate extends Screen
     public function commandBar(): iterable
     {
         return [
-            Link::make("Buat Order")->icon('bs.collection')->route('platform.order-buat'),
-            Link::make("Update Order")->icon('bs.collection')->route('platform.order-update'),
-            Link::make("Delete Order")->icon('trash')->route('platform.order-delete')
+            Link::make("Buat Order")->icon('plus')->route('platform.order-buat'),
+            Link::make("Update Order")->icon('pencil')->route('platform.order-update'),
+            Link::make("Delete Order")->icon('trash')->route('platform.order-delete'),
+
+            Link::make("Tema Warna")->icon('circle')->route('platform.warna-halaman'),
+            Link::make("Background Image")->icon('image')->route('platform.halaman-order'),
         ];
     }
 
