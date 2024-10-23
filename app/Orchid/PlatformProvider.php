@@ -59,11 +59,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->list([
                     Menu::make('Layout')
                         ->icon('layers')
-                        ->route('platform.table-layout'),
+                        ->route('platform.layout'),
 
                     Menu::make('Background')
                         ->icon('layers')
-                        ->route('platform.table-background'),
+                        ->route('platform.background'),
 
                     Menu::make('Filter')
                         ->icon('layers')
@@ -71,7 +71,7 @@ class PlatformProvider extends OrchidServiceProvider
 
                     Menu::make('Sticker')
                         ->icon('layers')
-                        ->route('platform.table-sticker'),
+                        ->route('platform.sticker'),
 
                 ])->divider(),
 

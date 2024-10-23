@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Layout as ModelsLayout;
+use App\Models\Layout_Custome;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -31,6 +33,24 @@ class Layout extends Controller
     public function store(Request $request)
     {
         //
+        // ...
+        // $id = $request->id;
+        // $layout =  Layout_Custome;
+        // $layout->nama = $request->nama;
+        // $layout->warna = $request->warna;
+        // $layout->status = $request->status;
+
+
+        // if ($layout->save()) {
+        //     // update settings db
+
+        //     $layout->save();
+        //     $layout->insertOrIgnore($request->all());
+
+        //     return response()->json($layout);
+        // } else {
+        //     return ['status' => false, 'message' => "Error : Image not uploded successfully"];
+        // }
     }
 
     /**
@@ -72,38 +92,16 @@ class Layout extends Controller
         $layout->warna = $request->warna;
         $layout->status = $request->status;
 
-        $fileName = $request->get('nama_img') . '.png';
 
-        if (!is_dir(storage_path("app/public/background/"))) {
-            mkdir(storage_path("app/public/background/"), 0755, true);
-        }
+        if ($layout->save()) {
+            // update settings db
 
-        $newPath = storage_path("app/public/background/");
-        if (!file_exists($newPath)) {
-            mkdir($newPath, 0755);
-        }
+            $layout->save();
+            $layout->insertOrIgnore($request->all());
 
-        $resize = Image::make($request->file('nama_img'))->encode('jpg');
-
-        if ($request->hasFile('nama_img')) {
-            $filename = $request->file('nama_img')->getClientOriginalName(); // get the file name
-            $getfilenamewitoutext = pathinfo($filename, PATHINFO_FILENAME); // get the file name without extension
-            $getfileExtension = $request->file('nama_img')->getClientOriginalExtension(); // get the file extension
-            $createnewFileName = time() . '-' . 'sticker' . '.' . $getfileExtension; // create new random file name
-            // $background->nama_img = $createnewFileName; // pass file name with column
-            $newPhotoFullPath = $newPath . $createnewFileName;
-            $resize->save($newPhotoFullPath);
-
-            if ($background->save()) {
-                // update settings db
-
-                $background->save();
-                $background->update($request->all());
-
-                return response()->json($background);
-            } else {
-                return ['status' => false, 'message' => "Error : Image not uploded successfully"];
-            }
+            return response()->json($layout);
+        } else {
+            return ['status' => false, 'message' => "Error : Image not uploded successfully"];
         }
     }
 

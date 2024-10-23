@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CustomLayout;
 use App\Http\Controllers\HalamanSettings as ControllersHalamanSettings;
 use App\Http\Controllers\MalasngodingController;
+use App\Http\Controllers\OrchidController;
 use App\Orchid\Screens\HalamanSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -20,19 +22,3 @@ use Illuminate\Support\Facades\Artisan;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/linkstorage', function () {
-    Artisan::call('storage:link', []);
-    return "storage link";
-});
-
-// menu settings 
-Route::get(
-    '/halaman-settings',
-    [ControllersHalamanSettings::class, 'index']
-)->name('halaman-settings');
-
-// ...
-Route::get('/input', [MalasngodingController::class, 'input']);
-
-Route::post('/proses', [MalasngodingController::class, 'proses']);

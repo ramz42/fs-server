@@ -2,46 +2,37 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Beranda;
-use App\Orchid\Screens\BuatBackground;
-use App\Orchid\Screens\BuatFilter;
-use App\Orchid\Screens\BuatSticker;
-use App\Orchid\Screens\Examples\ExampleActionsScreen;
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleGridScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
-
-use App\Orchid\Screens\HalamanOrder;
-use App\Orchid\Screens\LaporanInvoices;
-use App\Orchid\Screens\MenuOrder;
-use App\Orchid\Screens\OrderBuat;
-use App\Orchid\Screens\OrderDelete;
-use App\Orchid\Screens\OrderUpdate;
+use App\Orchid\Screens\Edit\BuatLayout;
+use App\Orchid\Screens\Edit\KostumLayout;
+use App\Orchid\Screens\Edit\TableBackground;
+use App\Orchid\Screens\Edit\TableLayout;
+use App\Orchid\Screens\Edit\TableSticker;
+use App\Orchid\Screens\Edit\UpdateBackground;
+use App\Orchid\Screens\Edit\UpdateFilter;
+use App\Orchid\Screens\Edit\UpdateLayout;
+use App\Orchid\Screens\Edit\UpdateSticker;
+use App\Orchid\Screens\Order\MenuOrder;
+use App\Orchid\Screens\Order\OrderBuat;
+use App\Orchid\Screens\Order\OrderDelete;
+use App\Orchid\Screens\Order\OrderUpdate;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
-use App\Orchid\Screens\TableLayout;
+use App\Orchid\Screens\Settings\BuatBackground;
+use App\Orchid\Screens\Settings\BuatFilter;
+use App\Orchid\Screens\Settings\BuatSticker;
+use App\Orchid\Screens\Settings\HalamanSettings;
+use App\Orchid\Screens\Settings\LaporanInvoices;
+use App\Orchid\Screens\Settings\WarnaHalaman;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
-use App\Orchid\Screens\WarnaHalaman;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
-use App\Orchid\Screens\HalamanSettings;
-use App\Orchid\Screens\MenuFilter;
-use App\Orchid\Screens\MenuSticker;
-use App\Orchid\Screens\TableBackground;
-use App\Orchid\Screens\TableSticker;
-use App\Orchid\Screens\UpdateBackground;
-use App\Orchid\Screens\UpdateFilter;
-use App\Orchid\Screens\UpdateLayout;
-use App\Orchid\Screens\UpdateSticker;
 
+// use App\Orchid\Screens\Settings\LaporanInvoices;
+// use App\Orchid\Screens\Settings\HalamanSettings;
+// use App\Orchid\Screens\Settings\WarnaHalaman;
 /*
 |--------------------------------------------------------------------------
 | Dashboard Routes
@@ -106,49 +97,34 @@ Route::screen('roles', RoleListScreen::class)
         ->parent('platform.index')
         ->push(__('Roles'), route('platform.systems.roles')));
 
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(fn(Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push('Example Screen'));
 
-Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
-
-Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
-Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
-
-//Route::screen('idea', Idea::class, 'platform.screens.idea');
+// Route::screen('idea', Idea::class, 'platform.screens.idea');
 Route::screen('/halaman-settings', HalamanSettings::class)->name('platform.halaman-settings');
-Route::screen('/halaman-order', HalamanOrder::class)->name('platform.halaman-order');
-Route::screen('/halaman-edit', HalamanOrder::class)->name('platform.halaman-edit');
+Route::screen('/halaman-order', \App\Orchid\Screens\Order\HalamanOrder::class)->name('platform.halaman-order');
+Route::screen('/halaman-edit', \App\Orchid\Screens\Order\HalamanOrder::class)->name('platform.halaman-edit');
 
 Route::screen('/warna-halaman', WarnaHalaman::class)->name('platform.warna-halaman');
 Route::screen('/menu-order', MenuOrder::class)->name('platform.menu-order');
 Route::screen('/laporan-invoices', LaporanInvoices::class)->name('platform.laporan-invoices');
-Route::screen('/beranda', Beranda::class)->name('platform.beranda');
+Route::screen('/beranda', \App\Orchid\Screens\Beranda::class)->name('platform.beranda');
 
 // screen menu order
 Route::screen('order-buat', OrderBuat::class)->name('platform.order-buat');
 Route::screen('order-update', OrderUpdate::class)->name('platform.order-update');
 Route::screen('order-delete', OrderDelete::class)->name('platform.order-delete');
 
-
-Route::screen('table-layout', TableLayout::class)->name('platform.table-layout');
+Route::screen('layout', TableLayout::class)->name('platform.layout');
+Route::screen('buat-layout', BuatLayout::class)->name('platform.buat-layout');
+Route::screen('kostum-layout/{parameter?}', KostumLayout::class)->name('platform.kostum-layout');
 Route::screen('update-layout/{layout?}', UpdateLayout::class)->name('platform.update-layout');
 
 Route::screen('buat-filter', BuatFilter::class)->name('platform.buat-filter');
 Route::screen('update-filter', UpdateFilter::class)->name('platform.update-filter');
 
-Route::screen('table-sticker', TableSticker::class)->name('platform.table-sticker');
+Route::screen('sticker', TableSticker::class)->name('platform.sticker');
 Route::screen('buat-sticker', BuatSticker::class)->name('platform.buat-sticker');
 Route::screen('update-sticker/{sticker?}', UpdateSticker::class)->name('platform.update-sticker');
 
-Route::screen('table-background', TableBackground::class)->name('platform.table-background');
+Route::screen('background', TableBackground::class)->name('platform.background');
 Route::screen('buat-background', BuatBackground::class)->name('platform.buat-background');
-Route::screen('update-background/{layout?}', UpdateBackground::class)->name('platform.update-background');
+Route::screen('update-background/{parameter?}', UpdateBackground::class)->name('platform.update-background');

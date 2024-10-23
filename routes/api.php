@@ -5,8 +5,10 @@ use App\Http\Controllers\Api\SesiFotoController;
 use App\Http\Controllers\Api\UploadController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ImageController;
+use App\Http\Controllers\CustomLayout;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Layout;
+use App\Http\Controllers\LayoutCustomeController;
 use App\Http\Controllers\MainColor;
 use App\Http\Controllers\MenuPhoto;
 use App\Http\Controllers\Order;
@@ -231,6 +233,9 @@ Route::post('menu-buat', [MenuPhoto::class, 'store']);
 // Get Layout
 Route::get('layout', [Layout::class, 'index']);
 
+// Get Layout Kostum
+Route::get('layout-kostum', [CustomLayout::class, 'index']);
+
 // Post-Update Layout
 Route::put('/layout/{nama}', [Layout::class, 'update']);
 
@@ -239,3 +244,4 @@ Route::delete(
     '/menu-delete/{id}',
     [MenuPhoto::class, 'destroy']
 );
+
